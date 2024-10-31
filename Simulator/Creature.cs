@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Simulator;
 
-public class Creature
+public abstract class Creature //abstract zastepuje virtual - przy virtual mozna zrobic override'a ale nie musimy, a przy abstract wymusza zrobienie override'a i musi byc w abstrakcyjnej klasie
 {
     private string name = "Unknown";
     public string Name
@@ -46,17 +46,17 @@ public class Creature
         Name = name;
         Level = level;
     }
-    
-    public void SayHi()
-    {
-        Console.WriteLine($"Hi, I'm {Name}, my level is {level}.");
-    }
+
+    public abstract void SayHi();
     public void Upgrade()
     {
         if (level != 10) level += 1;
         else return;
         
     }
+    public abstract int Power { get; }
+
+
     public string Info => $"{Name} [{level}]";
     public void Go(Direction direction)
     {
