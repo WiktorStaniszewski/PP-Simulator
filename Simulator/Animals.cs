@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Simulator;
 
-internal class Animals
+public class Animals
 {
     private string description = "";
     public required string Description
@@ -14,18 +14,11 @@ internal class Animals
         get => description;
         init
         {
-            string temp_desc = value;
-            if (temp_desc == null) return;
-            temp_desc = temp_desc.Trim();
-            while (temp_desc.Length < 3) temp_desc += "#";
-            if (temp_desc.Length > 15) temp_desc = temp_desc[..15];
-            if (!Char.IsUpper(temp_desc[0])) {
-                temp_desc = Char.ToUpper(temp_desc[0]) + temp_desc.Substring(1);
-            }
-            while (temp_desc.Length < 3) temp_desc += "#";
-            description = temp_desc.Trim();
+            if (value == null) return;
+            description = Validator.Shortener(value, 3,15,'#');
         }
     }
     public uint Size { get; set; } = 3;
-    public string Info => $"{Description} <{Size}>";
+    public virtual string Info => $"{Description} <{Size}>";
+    public override string ToString() => $"{GetType().Name.ToUpper()}: {Info}";
 }

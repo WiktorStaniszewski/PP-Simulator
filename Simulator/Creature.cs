@@ -14,16 +14,8 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
         get => name;
         init
         {
-            string temp_name = value;
-            if (temp_name == null) return;
-            temp_name = temp_name.Trim();
-            while (temp_name.Length < 3) temp_name += "#";
-            if (temp_name.Length > 25) temp_name = temp_name[..25].Trim();
-            if (!Char.IsUpper(temp_name[0])) {
-                temp_name = Char.ToUpper(temp_name[0]) + temp_name.Substring(1);
-            }
-            while (temp_name.Length < 3) temp_name += "#";
-            name = temp_name;
+            if (value == null) return;
+            name = Validator.Shortener(value, 3, 25, '#');
         }
     }
         
@@ -31,13 +23,7 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
     public int Level
     {
         get => level;
-        init
-        {
-            int temp_int = value;
-            if (temp_int < 1) temp_int = 1;
-            else if (temp_int > 10) temp_int = 10;
-            level = temp_int;
-        }
+        init => level = Validator.Limiter(value, 1, 10);
     }
 
     public Creature() { }
@@ -47,17 +33,20 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
         Level = level;
     }
 
+    //Abstrakty
+    public abstract int Power { get; }
+    public abstract string Info { get; }
+
     public abstract void SayHi();
     public void Upgrade()
     {
-        if (level != 10) level += 1;
+        if (level != 10) level++;
         else return;
         
     }
-    public abstract int Power { get; }
 
 
-    public string Info => $"{Name} [{level}]";
+    //Go functions
     public void Go(Direction direction)
     {
         Console.WriteLine($"{Name} goes {direction.ToString().ToLower()}");
@@ -71,4 +60,6 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
         Direction[] movs = DirectionParser.Parse(mov);
         Go(movs);
     }
+
+    public override string ToString() => $"{GetType().Name.ToUpper()}: {Info}";
 }

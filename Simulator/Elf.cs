@@ -14,17 +14,21 @@ public class Elf : Creature {
         get => agility;
         private set
         {
-            agility = value > 10 ? 10 : value < 0 ? 0 : value;
+            agility = Validator.Limiter(value, 0, 10);
+            //agility = value > 10 ? 10 : value < 0 ? 0 : value;
         }
     }
+    public override int Power => Level * 8 + agility * 2;
+    public override string Info => $"{Name} [{Level}][{Agility}]";
     public void Sing()
     {
         if (sing_counter % 3 == 0 && sing_counter != 0 && agility<10) agility += 1;
         sing_counter++;
         Console.WriteLine($"{Name} is singing");
     }
-    public Elf() { }
-    public Elf(string name, int agility, int level = 1) : base(name, level) {
+    public Elf() : base() { }
+    public Elf(string name, int level = 1, int agility=0) : base(name, level)
+    {
         Name = name;
         Level = level;
         Agility = agility;
@@ -34,19 +38,5 @@ public class Elf : Creature {
         Console.WriteLine($"Hi, I'm {Name}, " +
             $"my level is {Level}, my agility is {Agility}.");
     }
-    public override int Power
-    {
-        get
-        {
-            return Level * 8 + agility * 2;
-        }
-    }
-
-    /*
-    public override void SayHi()
-    {
-        Console.WriteLine($"Hi, i'm {Name}, my level is {Level}, my agility is {Agility}");
-    }
-    */
 
 }
