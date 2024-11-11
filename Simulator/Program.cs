@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.SymbolStore;
+﻿using Simulator.Maps;
+using System.Diagnostics.SymbolStore;
+using System.Drawing;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Simulator;
@@ -7,7 +9,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        Lab5a();
+        Lab5b();
     }
 
     static void Lab4a()
@@ -74,18 +76,44 @@ internal class Program
     {
         try
         {
-            var rect = new Rectangle(new Point(5, 5), new Point(1, 1));
+            Rectangle rect = new Rectangle(new Point(5, 5), new Point(1, 1));
             Console.WriteLine(rect);
 
-            var pointInside = new Point(3, 3);
-            var pointOutside = new Point(6, 6);
+            Point pointInside = new Point(3, 3);
+            Point pointOutside = new Point(6, 6);
 
             Console.WriteLine($"Point {pointInside} is inside: {rect.Contains(pointInside)}");
             Console.WriteLine($"Point {pointOutside} is inside: {rect.Contains(pointOutside)}");
 
-            var invalidRect = new Rectangle(5, 1, 5, 1);
+            Rectangle invalidRect = new Rectangle(5, 1, 5, 1);
         }
         catch (ArgumentException ex) 
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+    public static void Lab5b()
+    {
+        try
+        {
+            SmallSquareMap map = new SmallSquareMap(15);
+            Point currentPoint = new Point(1, -1);
+            Console.WriteLine(map.Exist(currentPoint));
+
+            Console.WriteLine(currentPoint);
+            currentPoint = map.Next(currentPoint, Direction.Down);
+            Console.WriteLine(currentPoint);
+            currentPoint = map.NextDiagonal(currentPoint, Direction.Down);
+            Console.WriteLine(currentPoint);
+
+            for (int i = 0; i < 15 ; i++)
+            {
+                currentPoint = map.NextDiagonal(currentPoint, Direction.Up);
+                Console.WriteLine($"\n{currentPoint}");
+            }
+
+        }
+        catch (ArgumentOutOfRangeException ex)
         {
             Console.WriteLine(ex.Message);
         }
