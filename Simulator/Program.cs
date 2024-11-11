@@ -7,8 +7,9 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        Lab4b();
+        Lab5a();
     }
+
     static void Lab4a()
     {
         var a = new Animals() { Description = "   Cats " };
@@ -28,7 +29,7 @@ internal class Program
         }
 
         Console.WriteLine("\nSING TEST\n");
-        var e = new Elf("Legolas", agility: 2);
+        var e = new Elf("L                        egolas", agility: 2);
         e.SayHi();
         for (int i = 0; i < 10; i++)
         {
@@ -68,5 +69,25 @@ internal class Program
             ELF: E## [10][0]
             ORC: Morgash [6][4]
         */
+    }
+    static void Lab5a()
+    {
+        try
+        {
+            var rect = new Rectangle(new Point(5, 5), new Point(1, 1));
+            Console.WriteLine(rect);
+
+            var pointInside = new Point(3, 3);
+            var pointOutside = new Point(6, 6);
+
+            Console.WriteLine($"Point {pointInside} is inside: {rect.Contains(pointInside)}");
+            Console.WriteLine($"Point {pointOutside} is inside: {rect.Contains(pointOutside)}");
+
+            var invalidRect = new Rectangle(5, 1, 5, 1);
+        }
+        catch (ArgumentException ex) 
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
