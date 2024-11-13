@@ -37,7 +37,7 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
     public abstract int Power { get; }
     public abstract string Info { get; }
 
-    public abstract void SayHi();
+    public abstract string Greeting();
     public void Upgrade()
     {
         if (level != 10) level++;
@@ -47,18 +47,18 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
 
 
     //Go functions
-    public void Go(Direction direction)
+    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
+    public string[] Go(Direction[] directions)
     {
-        Console.WriteLine($"{Name} goes {direction.ToString().ToLower()}");
+        List<string> list = new List<string>();
+        foreach (var direction in directions) list.Add(Go(direction));
+        return list.ToArray();
     }
-    public void Go(Direction[] directions)
+    public string[] Go(string mov)
     {
-        foreach (var direction in directions) Go(direction);
-    }
-    public void Go(string mov)
-    {
-        Direction[] movs = DirectionParser.Parse(mov);
-        Go(movs);
+        List<string> list = new List<string>();
+        foreach (var direction in DirectionParser.Parse(mov)) list.Add(Go(direction));
+        return list.ToArray();
     }
 
     public override string ToString() => $"{GetType().Name.ToUpper()}: {Info}";

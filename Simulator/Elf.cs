@@ -24,7 +24,6 @@ public class Elf : Creature {
     {
         if (sing_counter % 3 == 0 && sing_counter != 0 && agility<10) agility += 1;
         sing_counter++;
-        Console.WriteLine($"{Name} is singing");
     }
     public Elf() : base() { }
     public Elf(string name, int level = 1, int agility=0) : base(name, level)
@@ -33,10 +32,6 @@ public class Elf : Creature {
         Level = level;
         Agility = agility;
     }
-    public override void SayHi()
-    {
-        Console.WriteLine($"Hi, I'm {Name}, " +
-            $"my level is {Level}, my agility is {Agility}.");
-    }
+    public override string Greeting() => $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}.";
 
 }

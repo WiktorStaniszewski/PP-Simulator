@@ -29,12 +29,7 @@ public class Orc : Creature {
     {
         if (hunt_counter % 2 == 0 && hunt_counter != 0 && rage < 10) rage ++;
         hunt_counter++;
-        Console.WriteLine($"{Name} is hunting");
     }
-    public override void SayHi()
-    {
-        Console.WriteLine($"Hi, I'm {Name}, " +
-            $"my level is {Level}, my rage is {Rage}.");
-    }
+    public override string Greeting() => $"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}.";
     
 }
