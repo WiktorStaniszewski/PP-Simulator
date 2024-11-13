@@ -38,6 +38,7 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
     public abstract string Info { get; }
 
     public abstract string Greeting();
+    public override string ToString() => $"{GetType().Name.ToUpper()}: {Info}";
     public void Upgrade()
     {
         if (level != 10) level++;
@@ -46,7 +47,7 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
     }
 
 
-    //Go functions
+    //Go stringi
     public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
     public string[] Go(Direction[] directions)
     {
@@ -61,5 +62,4 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
         return list.ToArray();
     }
 
-    public override string ToString() => $"{GetType().Name.ToUpper()}: {Info}";
 }
