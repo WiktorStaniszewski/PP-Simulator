@@ -9,17 +9,20 @@ namespace Simulator.Maps;
 public class SmallSquareMap : Map
 {
     public readonly int Size;
+    private readonly Rectangle propSize;
 
     public SmallSquareMap(int size)
     {
         if (size < 5 || size > 20) throw new ArgumentOutOfRangeException("The size does not meet the requirements.");
         Size = size;
+        propSize = new Rectangle(0, 0, Size-1, Size-1);
     }
 
     public override bool Exist(Point p)
     {
-        if (p.X < 0 || p.Y > Size - 1 || p.X > Size - 1 || p.Y < 0) return false;
-        return true;
+        return propSize.Contains(p);
+        //if (p.X < 0 || p.Y > Size - 1 || p.X > Size - 1 || p.Y < 0) return false;
+        //return true;
     }
 
     public override Point Next(Point p, Direction d)

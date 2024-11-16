@@ -93,7 +93,7 @@ internal class Program
         try
         {
             SmallSquareMap map = new SmallSquareMap(15);
-            Point currentPoint = new Point(1, -1);
+            Point currentPoint = new Point(1, 15);
             Console.WriteLine(map.Exist(currentPoint));
 
             Console.WriteLine(currentPoint);
@@ -104,7 +104,7 @@ internal class Program
 
             for (int i = 0; i < 15 ; i++)
             {
-                currentPoint = map.NextDiagonal(currentPoint, Direction.Up);
+                currentPoint = map.NextDiagonal(currentPoint, Direction.Right);
                 Console.WriteLine($"\n{currentPoint}");
             }
 
