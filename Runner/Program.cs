@@ -104,7 +104,7 @@ internal class Program
 
             for (int i = 0; i < 15 ; i++)
             {
-                currentPoint = map.NextDiagonal(currentPoint, Direction.Right);
+                currentPoint = map.NextDiagonal(currentPoint, Direction.Down);
                 Console.WriteLine($"\n{currentPoint}");
             }
 
