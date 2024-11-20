@@ -7,20 +7,8 @@ using System.Threading.Tasks;
 
 namespace Simulator.Maps;
 
-public class SmallTorusMap : Map
+public class SmallTorusMap : SmallMap
 {
-    public readonly int Size;
-    private readonly Rectangle map_rectangle;
-    public SmallTorusMap (int size)
-    {
-        if (size < 5 || size > 20) throw new ArgumentOutOfRangeException("The size does not meet the requirements.");
-        Size = size;
-        map_rectangle = new Rectangle(0, 0, Size - 1, Size - 1);
-    }
-    public override bool Exist(Point p)
-    {
-        return map_rectangle.Contains(p);
-    }
 
     public override Point Next(Point p, Direction d)
     {

@@ -10,7 +10,7 @@ public static class DirectionParser
 {
     public static Direction[] Parse(string text)
     {
-        List<Direction> finalDir = [];
+        List<Direction> finalDir = new();
 
         foreach (var charac in text) 
         { 
@@ -31,6 +31,7 @@ public static class DirectionParser
                 default:
                     break;
             }
+
         }
         return finalDir.ToArray();
     }
