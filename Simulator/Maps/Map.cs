@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,17 +13,27 @@ namespace Simulator.Maps;
 /// </summary>
 public abstract class Map
 {
+    public abstract void Add(Creature creature, Point position);
+    public abstract void Remove(Creature creature, Point position);
+    public abstract void Move(Creature creature, Point startPosition, Point finalPosition);
+    public List<Creature>? At(int x, int y) => At(new Point(x, y));
+    public abstract List<Creature>? At(Point position);
+    //Remove
+    //Move - tutaj będzie raczej potrzebne
+    //At(x,y)
+    //At(point)
+
+
     private readonly Rectangle _map;
     
     protected Map(int sizeX, int sizeY)
     {
-        _map = new Rectangle(0, 0, SizeX - 1, SizeY - 1);
+        
         if (sizeX < 5) throw new ArgumentOutOfRangeException(nameof(sizeX), "Too narrow");
         if (sizeY < 5) throw new ArgumentOutOfRangeException(nameof(sizeY), "Too thin");
-        
-
         SizeX = sizeX;
         SizeY = sizeY;
+        _map = new Rectangle(0, 0, SizeX - 1, SizeY - 1);
     }
 
     public int SizeX { get; }

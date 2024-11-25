@@ -9,6 +9,7 @@ namespace Simulator.Maps;
 
 public class SmallTorusMap : SmallMap
 {
+    public SmallTorusMap(int sizeX, int sizeY) : base(sizeX, sizeY) { }
 
     public override Point Next(Point p, Direction d)
     {
@@ -18,8 +19,8 @@ public class SmallTorusMap : SmallMap
         return d switch
         {
             Direction.Up => new Point(newPoint.X, 0),
-            Direction.Down => new Point(newPoint.X, Size - 1),
-            Direction.Left => new Point(Size - 1, newPoint.Y),
+            Direction.Down => new Point(newPoint.X, SizeX - 1),
+            Direction.Left => new Point(SizeY - 1, newPoint.Y),
             Direction.Right => new Point(0, newPoint.Y),
             _ => throw new InvalidDataException()
         };
@@ -32,7 +33,7 @@ public class SmallTorusMap : SmallMap
         
         Point OtherSide(int x, int y)
         {
-            return new Point((x+Size)%Size, (y+Size)%Size);
+            return new Point((x+SizeX)%SizeX, (y+SizeX)%SizeX);
         }
         return d switch
         {
@@ -43,4 +44,5 @@ public class SmallTorusMap : SmallMap
             _ => throw new InvalidDataException()
         };
     }
+
 }

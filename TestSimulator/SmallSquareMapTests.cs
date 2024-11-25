@@ -13,15 +13,15 @@ public class SmallSquareMapTests
         // Act
         var map = new SmallSquareMap(size);
         // Assert
-        Assert.Equal(size, map.Size);
+        Assert.Equal(size, map.SizeY);
     }
     [Theory]
-    [InlineData(4)]
-    [InlineData(21)]
-    public void IncorrectSize_ThrowAgumentException(int size)
+    [InlineData(4,4)]
+    [InlineData(21,21)]
+    public void IncorrectSize_ThrowAgumentException(int sizeX, int sizeY)
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
-             new SmallTorusMap(size));
+             new SmallTorusMap(sizeX, sizeY));
     }
     [Theory]
     [InlineData(3, 4, 5, true)]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simulator.Maps;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,14 @@ namespace Simulator;
 
 public abstract class Creature //abstract zastepuje virtual - przy virtual mozna zrobic override'a ale nie musimy, a przy abstract wymusza zrobienie override'a i musi byc w abstrakcyjnej klasie
 {
+    public Map? Map { get; private set; }
+    public Point Position { get; private set; }
+    public void InitMapAndPosition(Map map, Point position)
+    {
+        map = Map ?? throw new ArgumentNullException(nameof(map));
+        Position = position;
+    }
+
     private string name = "Unknown";
     public string Name
     {
@@ -45,21 +54,20 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
         else return;
         
     }
-
-
+    public virtual void SelectMap(Map map, Point point)
+    {
+        Map = map;
+        Position = point;
+        map.Add(this, Position);
+    }
     //Go stringi
-    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
-    public string[] Go(Direction[] directions)
+    public void Go(Direction direction)
     {
-        List<string> list = new List<string>();
-        foreach (var direction in directions) list.Add(Go(direction));
-        return list.ToArray();
-    }
-    public string[] Go(string mov)
-    {
-        List<string> list = new List<string>();
-        foreach (var direction in DirectionParser.Parse(mov)) list.Add(Go(direction));
-        return list.ToArray();
-    }
+        if (Map == null) throw new ArgumentNullException("Map not selected");
+        Point NextPosition = Map.Next(Position, direction);
 
+        Map.Move(this, Position, NextPosition);
+        Position = NextPosition;
+       
+    }
 }
