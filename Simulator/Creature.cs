@@ -11,10 +11,11 @@ public abstract class Creature //abstract zastepuje virtual - przy virtual mozna
 {
     public Map? Map { get; private set; }
     public Point Position { get; private set; }
-    public void InitMapAndPosition(Map map, Point position)
+    public virtual void InitMapAndPosition(Map map, Point position)
     {
-        map = Map ?? throw new ArgumentNullException(nameof(map));
+        Map = map;
         Position = position;
+        map.Add(this, Position);
     }
 
     private string name = "Unknown";
