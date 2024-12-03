@@ -8,26 +8,26 @@ namespace Simulator.Maps;
 
 public abstract class SmallMap : Map
 {
-    readonly List<Creature>?[,] _fields;
+    readonly List<IMappable>?[,] _fields;
     protected SmallMap(int sizeX,  int sizeY) : base(sizeX, sizeY)
     {
         if (sizeX > 20) throw new ArgumentOutOfRangeException(nameof(sizeX), "Too wide");
         if (sizeY > 20) throw new ArgumentOutOfRangeException(nameof(sizeY), "Too long");
-        _fields = new List<Creature>?[sizeX,sizeY];
+        _fields = new List<IMappable>?[sizeX,sizeY];
     }
-    public override void Move(Creature creature, Point startPosition, Point finalPosition)
+    public override void Move(IMappable iMappable, Point startPosition, Point finalPosition)
     {
-        Remove(creature, startPosition);
-        Add(creature, finalPosition);
+        Remove(iMappable, startPosition);
+        Add(iMappable, finalPosition);
     }
-    public override void Add(Creature creature, Point position)
+    public override void Add(IMappable iMappable, Point position)
     {
-        _fields[position.X, position.Y] = new List<Creature>();
-        _fields[position.X, position.Y]?.Add(creature);
+        _fields[position.X, position.Y] = new List<IMappable>();
+        _fields[position.X, position.Y]?.Add(iMappable);
     }
-    public override void Remove(Creature creature, Point position)
+    public override void Remove(IMappable iMappable, Point position)
     {
-        _fields[position.X, position.Y]?.Remove(creature);
+        _fields[position.X, position.Y]?.Remove(iMappable);
     }
-    public override List<Creature>? At(Point position) => _fields[position.X, position.Y];
+    public override List<IMappable>? At(Point position) => _fields[position.X, position.Y];
 }

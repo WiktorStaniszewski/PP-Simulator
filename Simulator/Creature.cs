@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Simulator;
 
-public abstract class Creature //abstract zastepuje virtual - przy virtual mozna zrobic override'a ale nie musimy, a przy abstract wymusza zrobienie override'a i musi byc w abstrakcyjnej klasie
+public abstract class Creature : IMappable //abstract zastepuje virtual - przy virtual mozna zrobic override'a ale nie musimy, a przy abstract wymusza zrobienie override'a i musi byc w abstrakcyjnej klasie
 {
     public Map? Map { get; private set; }
     public Point Position { get; private set; }
