@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Simulator;
+﻿namespace Simulator;
 
 public readonly struct Point
 {
@@ -14,25 +8,40 @@ public readonly struct Point
 
     public Point Next(Direction direction)
     {
-        switch (direction) {
-            case Direction.Left: {  return new Point(X-1, Y); }
-            case Direction.Right: { return new Point(X+1, Y); }
-            case Direction.Up: { return new Point(X, Y+1); }
-            case Direction.Down: { return new Point(X, Y-1); }
-            default: return default;
-        }
+        (int, int) goNext = direction switch
+        {
+            Direction.Up => (0, 1),
+            Direction.Right => (1, 0),
+            Direction.Down => (0, -1),
+            Direction.Left => (-1, 0),
+            _ => throw new NotImplementedException(),
+        };
+
+        return new Point(X + goNext.Item1, Y + goNext.Item2);
     }
 
     // rotate given direction 45 degrees clockwise
     public Point NextDiagonal(Direction direction)
     {
-        switch (direction)
+        (int, int) goNextDiagonal = direction switch
         {
-            case Direction.Left: { return new Point(X - 1, Y + 1); }
-            case Direction.Right: { return new Point(X + 1, Y - 1); }
-            case Direction.Up: { return new Point(X + 1, Y + 1); }
-            case Direction.Down: { return new Point(X - 1, Y - 1); }
-            default: return default;
-        }
+            Direction.Up => (1, 1),
+            Direction.Right => (1, -1),
+            Direction.Down => (-1, -1),
+            Direction.Left => (-1, 1),
+            _ => throw new NotImplementedException()
+        };
+
+        return new Point(X + goNextDiagonal.Item1, Y + goNextDiagonal.Item2);
+    }
+
+    public static bool operator ==(Point a, Point b)
+    {
+        return (a.X == b.X) && (a.Y == b.Y);
+    }
+
+    public static bool operator !=(Point a, Point b)
+    {
+        return (a.X != b.X) || (a.Y != b.Y);
     }
 }

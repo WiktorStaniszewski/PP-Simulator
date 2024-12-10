@@ -1,84 +1,104 @@
 ﻿using Simulator;
 using Simulator.Maps;
+
 namespace SimConsole;
 
-//do zrobienia - rozjebane to je
-public class MapVisualizer
+public static class MapVisualizer
 {
-    public Map Map { get; init; }
-    public MapVisualizer(Map _map)
+    public static string GetMap(Map map)
     {
-        Map = _map;
-    }
-    public void Draw()
-    {
-        DrawMapRows(-1);
-        for (int j = 0; j < Map.SizeY; j++) 
+        string temp = "";
+
+        temp += DrawTop(map.SizeX);
+        for (int i = 0; i < map.SizeY; i++)
         {
-            if (j == 0) DrawMapRows(0);
-            else DrawMapRows(1);
-            for (int i = 0; i < Map.SizeX * 2 + 1; i++)
-            { 
-                if (i == 0) Console.Write($"{j,-3}");
-                if (i % 2 == 0) Console.Write(Box.Vertical);
-                else
-                {
-                    if (Map.At(i / 2, j) is not null)
-                    {
-                        if (Map.At(i / 2, j).Count > 1) Console.Write("X");
-                        else if (Map.At(i / 2, j).Count == 0) Console.Write(" ");
-                        else Console.Write(Map.At(i / 2, j)[0].Symbol);
-                    }
-                    else Console.Write(" ");
-                }
-            }
-            Console.WriteLine();
-        }
-        DrawMapRows(2);
-        Console.WriteLine();
+            temp += DrawCreaturesMap(i, map.SizeX, map);
 
+            if (i != map.SizeY - 1)
+                temp += DrawMiddle(map.SizeX);
+        }
+        temp += DrawBottom(map.SizeX);
+
+        return temp;
     }
 
-    private void DrawMapRows(int position) 
+    private static string DrawTop(int SizeX)
     {
-        if (position == -1) Console.Write("y\\x");
-        else Console.Write("   ");
-        for (int i = 0; i < Map.SizeX * 2 + 1; i++)
+        string temp = "";
+
+        temp += Box.TopLeft;
+        for (int i = 1; i < SizeX; i++)
         {
-            if (position == 0)
-            {
-                if (i == 0) Console.Write(Box.TopLeft);
-                else if (i == Map.SizeX * 2) Console.Write(Box.TopRight);
-                else if (i % 2 == 0) Console.Write(Box.TopMid);
-                else Console.Write(Box.Horizontal);
-            }
-            else if (position == 1)
-            {
-                if (i == 0) Console.Write(Box.MidLeft);
-                else if (i == Map.SizeX * 2) Console.Write(Box.MidRight);
-                else if (i % 2 == 0) Console.Write(Box.Cross);
-                else Console.Write(Box.Horizontal);
-            }
-            else if (position == 2)
-            {
-                if (i == 0) Console.Write(Box.BottomLeft);
-                else if (i == Map.SizeX * 2) Console.Write(Box.BottomRight);
-                else if (i % 2 == 0) Console.Write(Box.BottomMid);
-                else Console.Write(Box.Horizontal);
-            }
-            else if (position == -1)
-            {
-                if (i % 2 == 1) Console.Write(i / 2);
-                else Console.Write(" ");
-            }
+            temp += Box.Horizontal;
+            temp += Box.TopMid;
         }
-        Console.WriteLine();
+        temp += Box.Horizontal;
+        temp += Box.TopRight;
+
+        temp += "\n";
+
+        return temp;
     }
 
-    public void DisplayCreatureInfo(string info, int turn, string dir, string position = "<TBA>")
+    private static string DrawBottom(int SizeX)
     {
-        Console.WriteLine($"Tura {turn}.");
-        Console.WriteLine($"{info} ruszył na pozycje {position}.");
-        Console.WriteLine($"W kierunku: {dir}");
+        string temp = "";
+
+        temp += Box.BottomLeft;
+        for (int i = 1; i < SizeX; i++)
+        {
+            temp += Box.Horizontal;
+            temp += Box.BottomMid;
+        }
+        temp += Box.Horizontal;
+        temp += Box.BottomRight;
+
+        temp += "\n";
+
+        return temp;
+    }
+
+    private static string DrawMiddle(int SizeX)
+    {
+        string temp = "";
+
+        temp += Box.MidLeft;
+        for (int i = 1; i < SizeX; i++)
+        {
+            temp += Box.Horizontal;
+            temp += Box.Cross;
+        }
+        temp += Box.Horizontal;
+        temp += Box.MidRight;
+
+        temp += "\n";
+
+        return temp;
+    }
+
+    private static string DrawCreaturesMap(int row, int SizeX, Map map)
+    {
+        string temp = "";
+
+        temp += Box.Vertical;
+        for (int i = 0; i < SizeX; i++)
+        {
+            List<IMappable>? creaturesAt = map.At(i, map.SizeY - 1 - row);
+            char toDraw;
+            if (creaturesAt != null && creaturesAt.Count > 0)
+            {
+                toDraw = creaturesAt.Count > 1 ? 'X' : creaturesAt.First().Symbol;
+            }
+            else
+            {
+                toDraw = ' ';
+            }
+
+            temp += $"{toDraw}{Box.Vertical}";
+
+        }
+        temp += "\n";
+
+        return temp;
     }
 }

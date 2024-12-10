@@ -11,7 +11,7 @@ public abstract class BigMap : Map
     }
 
     public override void Add(IMappable iMappable, Point point)
-    { //dodaje potwora na pole
+    { 
         if (!_fields.ContainsKey(point)) _fields.Add(point, new List<IMappable>());
         _fields[point].Add(iMappable);
     }
@@ -35,11 +35,10 @@ public abstract class BigMap : Map
     }
 
     public override void Remove(IMappable iMappable, Point point)
-    { //usuwa potwora z pola
+    { 
         _fields[point]?.Remove(iMappable);
     }
 
-    //trzrba przemyśleć implementacje tego - w bigbouncemap jest wyjaśnione jaki problem jest
     private (int, int) ImplementBounce(int SizeX, int SizeY, Point outcome, Point current)
     {
         int x, y;

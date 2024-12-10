@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace Simulator;
 public class Orc : Creature
 {
-    public override string Symbol { get { return "O"; } }
     private int hunt_counter = 1;
     private int rage;
     public int Rage

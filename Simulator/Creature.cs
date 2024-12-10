@@ -9,7 +9,7 @@ namespace Simulator;
 
 public abstract class Creature : IMappable //abstract zastepuje virtual - przy virtual mozna zrobic override'a ale nie musimy, a przy abstract wymusza zrobienie override'a i musi byc w abstrakcyjnej klasie
 {
-    public abstract string Symbol { get; }
+    public char Symbol => GetType().Name[0];
     public Map? Map { get; private set; }
     public Point Position { get; private set; }
     public virtual void InitMapAndPosition(Map map, Point position)
