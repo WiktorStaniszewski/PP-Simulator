@@ -16,7 +16,7 @@ public abstract class Map
     public abstract void Add(IMappable iMappable, Point position);
     public abstract void Remove(IMappable iMappable, Point position);
     public abstract void Move(IMappable iMappable, Point startPosition, Point finalPosition);
-    public List<IMappable>? At(int x, int y) => At(new Point(x, y));
+    public abstract List<IMappable>? At(int x, int y);
     public abstract List<IMappable>? At(Point position);
     //Remove
     //Move - tutaj będzie raczej potrzebne
@@ -24,7 +24,7 @@ public abstract class Map
     //At(point)
 
 
-    private readonly Rectangle _map;
+    protected readonly Rectangle _map;
     
     protected Map(int sizeX, int sizeY)
     {

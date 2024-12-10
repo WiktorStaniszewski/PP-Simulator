@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Simulator.Maps;
+﻿namespace Simulator.Maps;
 
 public class SmallSquareMap : SmallMap
 {
     public SmallSquareMap(int size) : base(size, size) { }
+
+
+    public override bool Exist(Point p)
+    {
+        if (p.X > SizeX - 1 || p.Y > SizeY - 1 || p.X < 0 || p.Y < 0) return false;
+        return true;
+    }
 
     public override Point Next(Point p, Direction d)
     {

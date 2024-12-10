@@ -1,10 +1,17 @@
 ﻿using Simulator.Maps;
-using Simulator;
+using System.Runtime.CompilerServices;
+
 namespace Simulator;
+
 public class Simulation
 {
-    private int turnCount = 0;
-    private readonly List<Direction> allMoves;
+    private int iMappable_position_id = 0;
+    private int turnCounter = 0;
+    public int TurnCounter { get { return turnCounter; } }
+    private IMappable? movedIMappable;
+    private string? moveTaken;
+    public IMappable MovedIMappableInfo;
+    public string ReturnMoveTaken() => moveTaken;
 
     /// <summary>
     /// Simulation's map.
@@ -33,17 +40,17 @@ public class Simulation
     /// <summary>
     /// Has all moves been done?
     /// </summary>
-    public bool Finished => turnCount == allMoves.Count;
+    public bool Finished = false;
 
     /// <summary>
     /// IMappable which will be moving current turn.
     /// </summary>
-    public IMappable CurrentIMappable => IMappables[turnCount % IMappables.Count];
+    public IMappable CurrentIMappable { get { return IMappables[iMappable_position_id % IMappables.Count]; }/* implement getter only */ }
 
     /// <summary>
     /// Lowercase name of direction which will be used in current turn.
     /// </summary>
-    public string CurrentMoveName => allMoves[turnCount].ToString().ToLower();
+    public string CurrentMoveName { get { return Moves[iMappable_position_id].ToString(); }/* implement getter only */ }
 
     /// <summary>
     /// Simulation constructor.
@@ -54,20 +61,18 @@ public class Simulation
     /// </summary>
     public Simulation(Map map, List<IMappable> iMappables,
         List<Point> positions, string moves)
-    { /* implement */ 
-        if (iMappables.Count == 0) throw new ArgumentException("No iMappables - cannot start a simulation.");
-        if (iMappables.Count != positions.Count) throw new ArgumentException("Number of positions does not match the number of iMappables.");
+    {
+        if (iMappables.Count == 0) throw new ArgumentException("IMappables are mandatory for Simulation.");
+        if (positions.Count != iMappables.Count) throw new ArgumentException("Numbers of iMappables and positions don't align with eachother.");
         Map = map;
         IMappables = iMappables;
         Positions = positions;
-        Moves = moves;
-
         for (int i = 0; i < iMappables.Count; i++)
         {
             IMappables[i].InitMapAndPosition(Map, Positions[i]);
             Map.Add(IMappables[i], Positions[i]);
         }
-            allMoves = DirectionParser.Parse(Moves);
+        Moves = moves; 
     }
 
     /// <summary>
@@ -76,10 +81,24 @@ public class Simulation
     /// </summary>
     public void Turn()
     {
-        if (Finished) throw new InvalidOperationException("Simulation finished!");
-        IMappable iMappable = CurrentIMappable;
+        if (Finished)
+        {
+            throw new Exception("End of simulation");
+        }
+        MovedIMappableInfo = CurrentIMappable;
+        var current_move = DirectionParser.Parse(CurrentMoveName);
+        while (!current_move.Any())
+        {
+            Moves.Remove(iMappable_position_id);
+            current_move = DirectionParser.Parse(CurrentMoveName);
+        }
 
-        CurrentIMappable.Go(allMoves[turnCount++]);
+        CurrentIMappable.Go(current_move[0]); 
+        movedIMappable = CurrentIMappable;
+        moveTaken = CurrentMoveName;
 
+        iMappable_position_id++;
+        turnCounter++;
+        if (iMappable_position_id >= Moves.Length) Finished = true;
     }
 }

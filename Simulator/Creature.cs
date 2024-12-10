@@ -9,6 +9,7 @@ namespace Simulator;
 
 public abstract class Creature : IMappable //abstract zastepuje virtual - przy virtual mozna zrobic override'a ale nie musimy, a przy abstract wymusza zrobienie override'a i musi byc w abstrakcyjnej klasie
 {
+    public abstract string Symbol { get; }
     public Map? Map { get; private set; }
     public Point Position { get; private set; }
     public virtual void InitMapAndPosition(Map map, Point position)
@@ -17,7 +18,6 @@ public abstract class Creature : IMappable //abstract zastepuje virtual - przy v
         Position = position;
         map.Add(this, Position);
     }
-
     private string name = "Unknown";
     public string Name
     {
@@ -69,6 +69,5 @@ public abstract class Creature : IMappable //abstract zastepuje virtual - przy v
 
         Map.Move(this, Position, NextPosition);
         Position = NextPosition;
-       
     }
 }
