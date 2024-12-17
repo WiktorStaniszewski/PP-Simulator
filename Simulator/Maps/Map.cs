@@ -13,19 +13,31 @@ namespace Simulator.Maps;
 /// </summary>
 public abstract class Map
 {
-    public abstract void Add(IMappable iMappable, Point position);
-    public abstract void Remove(IMappable iMappable, Point position);
+    public virtual void Add(IMappable iMappable, Point position)
+    {
+        if (!_fields.ContainsKey(position)) _fields.Add(position, new List<IMappable>());
+        _fields[position].Add(iMappable);
+    }
+    public virtual void Remove(IMappable iMappable, Point point)
+    {
+        _fields[point]?.Remove(iMappable);
+    }
     public abstract void Move(IMappable iMappable, Point startPosition, Point finalPosition);
-    public abstract List<IMappable>? At(int x, int y);
-    public abstract List<IMappable>? At(Point position);
-    //Remove
-    //Move - tutaj będzie raczej potrzebne
-    //At(x,y)
-    //At(point)
+    public virtual List<IMappable>? At(int x, int y)
+    {
+        Point p = new(x, y);
+        if (!_fields.ContainsKey(p)) return null;
+        return _fields[p];
+    }
+    public virtual List<IMappable>? At(Point position)
+    {
+        if (!_fields.ContainsKey(position)) return null;
+        return _fields[position];
+    }
 
 
     protected readonly Rectangle _map;
-    
+    protected Dictionary<Point, List<IMappable>> _fields;
     protected Map(int sizeX, int sizeY)
     {
         

@@ -2,30 +2,12 @@
 
 public abstract class BigMap : Map
 {
-    readonly Dictionary<Point, List<IMappable>> _fields;
+    new readonly Dictionary<Point, List<IMappable>> _fields;
     public BigMap(int sizeX, int sizeY) : base(sizeX, sizeY)
     {
         if (sizeX > 1000) throw new ArgumentOutOfRangeException(nameof(sizeX), "Too wide");
         if (sizeY > 1000) throw new ArgumentOutOfRangeException(nameof(sizeY), "Too wide");
         _fields = new Dictionary<Point, List<IMappable>>();
-    }
-
-    public override void Add(IMappable iMappable, Point point)
-    { 
-        if (!_fields.ContainsKey(point)) _fields.Add(point, new List<IMappable>());
-        _fields[point].Add(iMappable);
-    }
-
-    public override List<IMappable>? At(int x, int y)
-    {
-        var p = new Point(x, y);
-        if (!_fields.ContainsKey(p)) return null;
-        return _fields[p];
-    }
-    public override List<IMappable>? At(Point point)
-    {
-        if (!_fields.ContainsKey(point)) return null;
-        return _fields[point];
     }
 
     public override void Move(IMappable iMappable, Point oldpoint, Point newpoint)
@@ -34,10 +16,7 @@ public abstract class BigMap : Map
         Add(iMappable, newpoint);
     }
 
-    public override void Remove(IMappable iMappable, Point point)
-    { 
-        _fields[point]?.Remove(iMappable);
-    }
+    
 
     private (int, int) ImplementBounce(int SizeX, int SizeY, Point outcome, Point current)
     {
